@@ -1,5 +1,5 @@
 from utils.date import get_current_year, greater_than_today
-from utils.utils import BaseScraper
+from utils.utils import BaseScraper, exclude
 
 
 class Mello(BaseScraper):
@@ -8,19 +8,8 @@ class Mello(BaseScraper):
                                     "Trek, trekking, Online, Comedy, Kids, Bollywood, Pool Party, Salsa, Bachata, Bhangra, Dj, Open mic, Improv, Networking, Rooftop party, Gokarna, Summer camp, Techno, jokes".lower().split(", "))
 
     def get_events(self):
-        count = 0
-        groups = []
-
-        while count < 14:
-            self.driver.execute_script(
-                "window.scrollTo(0, document.body.scrollHeight);")
-
-            groups = self.driver.execute_script(
-                "return document.getElementsByClassName(\"home-widget listify_widget_recent_listings\");")
-
-            count = len(groups)
-
-        assert count == 14
+        groups = self.driver.execute_script(
+            "return document.getElementsByClassName(\"home-widget listify_widget_recent_listings\");")
 
         for group in groups:
             num_events = len(self.driver.execute_script(
@@ -33,6 +22,10 @@ class Mello(BaseScraper):
                     f"return arguments[0].getElementsByClassName(\"job_listing type-job_listing\")[{i}].innerText;", group).split("\n")
 
                 event_name = event_details[0]
+
+                if exclude(" ".join(event_details), self.exclude_words):
+                    print("Excluding event: ", event_name)
+                    continue
 
                 if len(event_details[-2].split()) >= 2:
                     event_date = ' '.join(

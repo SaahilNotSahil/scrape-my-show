@@ -3,7 +3,7 @@ from time import sleep
 from selenium.webdriver.common.by import By
 
 from utils.date import greater_than_today, is_date
-from utils.utils import BaseScraper
+from utils.utils import BaseScraper, exclude
 
 
 class SkillBoxes(BaseScraper):
@@ -42,6 +42,10 @@ class SkillBoxes(BaseScraper):
             link = anchor.get_attribute("href")
             event_name = anchor.text
             para = div.find_elements(by=By.TAG_NAME, value="p")[1]
+
+            if exclude(event.text, self.exclude_words):
+                print("Excluding event: ", event_name)
+                continue
 
             event_date = para.text.split(" | ")[0].split(" - ")[0]
             if len(para.text.split(" | ")[0].split(" - ")) == 2:
