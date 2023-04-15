@@ -9,7 +9,7 @@ from utils.date import format_date
 st.set_page_config(page_title="ScrapeMyShow", layout="centered")
 
 
-@st.cache_data
+@st.cache_data(ttl=1800.00)
 def load_data():
     data = []
     data_files = os.listdir("./data")
@@ -37,4 +37,37 @@ df = load_data()
 
 st.title("ScrapeMyShow")
 st.write("Events Data")
-st.write(df)
+st.sidebar.title("Filter by Date")
+
+date_options = df['Date'].unique().tolist()
+date_options.insert(0, "All")
+selected_date = st.sidebar.selectbox("Select Date", date_options)
+
+if selected_date != "All":
+    filtered_df = df[df['Date'] == selected_date]
+    st.write(filtered_df)
+else:
+    st.write(df)
+
+urls = {
+    "BookMyShow": "https://in.bookmyshow.com/",
+    "Mello": "https://www.mello.fun/",
+    "Insider": "https://insider.in/",
+    "Skill Boxes": "https://www.skillboxes.com/",
+    "Adidas Runners": "https://adidasrunners.adidas.com",
+    "Bangalore International Centre": "https://bangaloreinternationalcentre.org/",
+    "Jagriti Theatre": "https://www.jagrititheatre.com/",
+    "Explocity": "https://bangalore.explocity.com/",
+    "The White Box Company": "https://thewhiteboxco.in/",
+    "Sunset Cinema Club": "https://sunsetcinemaclub.in/",
+    "Mein Bhi Kalakar": "https://www.meinbhikalakar.com",
+    "PaintBarBlr": "https://paintbarblr.com/",
+    "Bng Birds": "https://bngbirds.com/",
+    "Indian Music Experience": "https://indianmusicexperience.org/",
+    "Map India": "https://map-india.org/",
+}
+
+# st.sidebar.title("Filter by Website")
+# selected_site = str(st.sidebar.selectbox("Select Site", list(urls.keys())))
+# filtered_df = df[urls[selected_site] in df['Link']]
+# st.write(filtered_df)
