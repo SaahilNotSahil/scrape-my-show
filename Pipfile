@@ -12,6 +12,7 @@ streamlit = "*"
 dateparser = "*"
 gradio = "*"
 plotly = "*"
+scrapy = "*"
 
 [dev-packages]
 
