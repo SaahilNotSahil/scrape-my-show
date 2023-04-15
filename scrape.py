@@ -12,9 +12,11 @@ scrapers = {
     "adidas": AdidasRunners,
     "bic": BangaloreInternationCentre,
     # "bms": BMS,
+    # "bms2": BMS2,
     "bngbirds": BngBirds,
     "explocity": ExploCity,
     "insider": Insider,
+    "imx": IndianMusicExperience,
     "jagriti": JagritiTheatre,
     "mapindia": MapIndia,
     "meinbhikalakar": MeinBhiKalakar,
@@ -22,7 +24,7 @@ scrapers = {
     "paintbarblr": PaintBarBlr,
     "skillboxes": SkillBoxes,
     "sunsetcinema": SunsetCinemaClub,
-    # "twb": TheWhiteBox
+    "twb": TheWhiteBox
 }
 
 
