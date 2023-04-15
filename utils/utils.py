@@ -8,6 +8,14 @@ from selenium.webdriver.chrome.options import Options
 class BaseScraper:
     def __init__(self, url, exclude_words) -> None:
         self.options = Options()
+        self.options.add_argument("start-maximized")
+        self.options.add_argument("disable-infobars")
+        self.options.add_argument("--disable-extensions")
+        self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("--no-sandbox")
+        self.options.add_argument("--disable-browser-side-navigation")
+        self.options.add_argument(
+            "--disable-blink-features=AutomationControlled")
         self.options.add_argument("--headless")
         self.options.add_argument(
             'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3')
@@ -23,7 +31,6 @@ class BaseScraper:
 
     def open(self):
         self.driver.get(self.url)
-        self.driver.maximize_window()
         self.driver.implicitly_wait(15)
 
         return self
@@ -52,3 +59,11 @@ class BaseScraper:
 
     def close_driver(self):
         self.driver.close()
+
+
+def exclude(text, exclude_words):
+    for word in exclude_words:
+        if word in text.lower():
+            return True
+
+    return False
