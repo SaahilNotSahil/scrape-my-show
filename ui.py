@@ -1,3 +1,4 @@
+import json
 import os
 
 import dateparser
@@ -33,25 +34,17 @@ def load_data():
     return df
 
 
-df = load_data()
+@st.cache_data
+def get_base_urls():
+    f = open("base_urls.json", "r")
+    base_urls = json.load(f)
+    f.close()
 
-urls = {
-    "BookMyShow": "https://in.bookmyshow.com/",
-    "Mello": "https://www.mello.fun/",
-    "Insider": "https://insider.in/",
-    "Skill Boxes": "https://www.skillboxes.com/",
-    "Adidas Runners": "https://adidasrunners.adidas.com",
-    "Bangalore International Centre": "https://bangaloreinternationalcentre.org/",
-    "Jagriti Theatre": "https://www.jagrititheatre.com/",
-    "Explocity": "https://bangalore.explocity.com/",
-    "The White Box Company": "https://thewhiteboxco.in/",
-    "Sunset Cinema Club": "https://sunsetcinemaclub.in/",
-    "Mein Bhi Kalakar": "https://www.meinbhikalakar.com",
-    "PaintBarBlr": "https://paintbarblr.com/",
-    "Bng Birds": "https://bngbirds.com/",
-    "Indian Music Experience": "https://indianmusicexperience.org/",
-    "Map India": "https://map-india.org/",
-}
+    return base_urls
+
+
+df = load_data()
+base_urls = get_base_urls()
 
 st.title("ScrapeMyShow")
 st.write("Events Data")
@@ -62,19 +55,19 @@ date_options.insert(0, "All")
 selected_date = st.sidebar.selectbox("Select Date", date_options)
 
 st.sidebar.title("Filter by Website")
-website_options = list(urls.keys())
+website_options = list(base_urls.keys())
 website_options.insert(0, "All")
 selected_site = str(st.sidebar.selectbox("Select Site", website_options))
 
 if selected_date == "All" and selected_site != "All":
-    filtered_df = df[df['Link'].str.contains(urls[selected_site])]
+    filtered_df = df[df['Link'].str.contains(base_urls[selected_site])]
     st.write(filtered_df)
 elif selected_date != "All" and selected_site == "All":
     filtered_df = df[df['Date'] == selected_date]
     st.write(filtered_df)
 elif selected_date != "All" and selected_site != "All":
     filtered_df = df[(df['Date'] == selected_date) & (
-        df['Link'].str.contains(urls[selected_site]))]
+        df['Link'].str.contains(base_urls[selected_site]))]
     st.write(filtered_df)
 else:
     st.write(df)
