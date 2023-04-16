@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 class BaseScraper:
-    def __init__(self, url, exclude_words) -> None:
+    def __init__(self, url, exclude_words, headless=True) -> None:
         self.options = Options()
         self.options.add_argument("start-maximized")
         self.options.add_argument("disable-infobars")
@@ -16,7 +16,10 @@ class BaseScraper:
         self.options.add_argument("--disable-browser-side-navigation")
         self.options.add_argument(
             "--disable-blink-features=AutomationControlled")
-        self.options.add_argument("--headless")
+
+        if headless:
+            self.options.add_argument("--headless")
+
         self.options.add_argument(
             'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3')
         self.driver = webdriver.Chrome(
@@ -53,9 +56,6 @@ class BaseScraper:
 
         df.to_csv(f"./data/{name}.csv", index=False)
         print(f"Saved {self.num_events} events to ./data/{name}.csv")
-
-    def get_driver(self):
-        return self.driver
 
     def close_driver(self):
         self.driver.close()
