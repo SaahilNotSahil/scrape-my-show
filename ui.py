@@ -4,7 +4,7 @@ import dateparser
 import pandas as pd
 import streamlit as st
 
-from utils.date import format_date
+from utils import format_date
 
 st.set_page_config(page_title="ScrapeMyShow", layout="centered")
 
@@ -35,20 +35,6 @@ def load_data():
 
 df = load_data()
 
-st.title("ScrapeMyShow")
-st.write("Events Data")
-st.sidebar.title("Filter by Date")
-
-date_options = df['Date'].unique().tolist()
-date_options.insert(0, "All")
-selected_date = st.sidebar.selectbox("Select Date", date_options)
-
-if selected_date != "All":
-    filtered_df = df[df['Date'] == selected_date]
-    st.write(filtered_df)
-else:
-    st.write(df)
-
 urls = {
     "BookMyShow": "https://in.bookmyshow.com/",
     "Mello": "https://www.mello.fun/",
@@ -67,7 +53,28 @@ urls = {
     "Map India": "https://map-india.org/",
 }
 
-# st.sidebar.title("Filter by Website")
-# selected_site = str(st.sidebar.selectbox("Select Site", list(urls.keys())))
-# filtered_df = df[urls[selected_site] in df['Link']]
-# st.write(filtered_df)
+st.title("ScrapeMyShow")
+st.write("Events Data")
+
+st.sidebar.title("Filter by Date")
+date_options = df['Date'].unique().tolist()
+date_options.insert(0, "All")
+selected_date = st.sidebar.selectbox("Select Date", date_options)
+
+st.sidebar.title("Filter by Website")
+website_options = list(urls.keys())
+website_options.insert(0, "All")
+selected_site = str(st.sidebar.selectbox("Select Site", website_options))
+
+if selected_date == "All" and selected_site != "All":
+    filtered_df = df[df['Link'].str.contains(urls[selected_site])]
+    st.write(filtered_df)
+elif selected_date != "All" and selected_site == "All":
+    filtered_df = df[df['Date'] == selected_date]
+    st.write(filtered_df)
+elif selected_date != "All" and selected_site != "All":
+    filtered_df = df[(df['Date'] == selected_date) & (
+        df['Link'].str.contains(urls[selected_site]))]
+    st.write(filtered_df)
+else:
+    st.write(df)
