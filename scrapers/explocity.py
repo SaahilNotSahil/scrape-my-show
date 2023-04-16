@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from utils.date import get_current_year, greater_than_today
-from utils.utils import BaseScraper
+from utils import BaseScraper, get_current_year, greater_than_today
 
 
 class ExploCity(BaseScraper):

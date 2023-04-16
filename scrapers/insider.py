@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from utils.date import get_current_year, greater_than_today
-from utils.utils import BaseScraper, exclude
+from utils import BaseScraper, exclude, get_current_year, greater_than_today
 
 
 class Insider(BaseScraper):
@@ -38,7 +37,6 @@ class Insider(BaseScraper):
                 continue
             
             if exclude(" ".join(event_details), self.exclude_words):
-                print("Excluding event: ", event_details[2])
                 continue
 
             e = {

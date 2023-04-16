@@ -1,5 +1,4 @@
-from utils.date import is_date, greater_than_today
-from utils.utils import BaseScraper
+from utils import BaseScraper, greater_than_today, is_date
 
 
 class MapIndia(BaseScraper):

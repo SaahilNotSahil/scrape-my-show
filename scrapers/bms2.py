@@ -2,13 +2,12 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
-from utils.date import get_current_year, greater_than_today
-from utils.utils import BaseScraper
+from utils import BaseScraper, get_current_year, greater_than_today
 
 
 class BMS2(BaseScraper):
     def __init__(self, url):
-        super(BMS2, self).__init__(url, [])
+        super(BMS2, self).__init__(url, [], False)
 
     def get_events(self):
         current_count = 0
@@ -16,10 +15,6 @@ class BMS2(BaseScraper):
         second_last_count = 0
 
         events = []
-
-        # city = self.driver.find_elements(
-        #     by=By.CLASS_NAME, value="styles__PopularCityWrapper-ttnkwg-18.jupogi")[2]
-        # city.click()
 
         while 1:
             self.driver.execute_script(
@@ -37,8 +32,6 @@ class BMS2(BaseScraper):
                 break
 
         self.num_events = current_count
-
-        print(self.num_events)
 
         for event in events:
             date = event.find_element(
@@ -68,10 +61,9 @@ class BMS2(BaseScraper):
                 "link": event_link
             }
 
-            print(e)
-
             if e not in self.events:
                 self.events.append(e)
 
         self.num_events = len(self.events)
+
         print(f"Found {self.num_events} offline events in Bengaluru")

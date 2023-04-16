@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from utils.date import greater_than_today
-from utils.utils import BaseScraper
+from utils import BaseScraper, greater_than_today
 
 
 class BngBirds(BaseScraper):

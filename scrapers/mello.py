@@ -1,5 +1,4 @@
-from utils.date import get_current_year, greater_than_today
-from utils.utils import BaseScraper, exclude
+from utils import BaseScraper, exclude, get_current_year, greater_than_today
 
 
 class Mello(BaseScraper):
@@ -24,7 +23,6 @@ class Mello(BaseScraper):
                 event_name = event_details[0]
 
                 if exclude(" ".join(event_details), self.exclude_words):
-                    print("Excluding event: ", event_name)
                     continue
 
                 if len(event_details[-2].split()) >= 2:
