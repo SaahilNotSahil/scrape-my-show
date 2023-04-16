@@ -1,5 +1,6 @@
 import json
 import threading
+from datetime import datetime, timedelta
 from time import sleep
 
 from scrapers import *
@@ -11,8 +12,8 @@ f.close()
 scrapers = {
     "adidas": AdidasRunners,
     "bic": BangaloreInternationCentre,
-    # "bms": BMS,
-    # "bms2": BMS2,
+    "bms": BMS,
+    "bms2": BMS2,
     "bngbirds": BngBirds,
     "explocity": ExploCity,
     "insider": Insider,
@@ -30,7 +31,16 @@ scrapers = {
 
 def scrape(scraper):
     while 1:
-        s = scrapers[scraper](urls[scraper]).open()
+        url = urls[scraper]
+
+        if scraper == "bms":
+            today = datetime.now().strftime('%Y%m%d')
+            last_day = datetime.now().replace(day=28) + timedelta(days=4)
+            last_day = last_day.replace(day=1) - timedelta(days=1)
+            last_day = last_day.strftime('%Y%m%d')
+            url += today + "-" + last_day
+
+        s = scrapers[scraper](url).open()
         s.get_events()
         s.close_driver()
         s.save_csv(scraper)
@@ -45,4 +55,5 @@ def start_scraper():
         thread.start()
 
 
-start_scraper()
+if __name__ == "__main__":
+    start_scraper()
