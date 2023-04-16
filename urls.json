@@ -1,6 +1,6 @@
 {
   "insider": "https://insider.in/all-events-in-bengaluru?type=physical",
-  "bms": "https://in.bookmyshow.com/explore/events-bengaluru?daygroups=custom:20230415-20230430&categories=workshops|music-shows|meetups|performances|screening|spirituality|talks|award-shows|celebrity-wishes|exhibitions&tags=outdoor-events",
+  "bms": "https://in.bookmyshow.com/explore/events-bengaluru?categories=workshops|music-shows|meetups|performances|screening|spirituality|talks|award-shows|celebrity-wishes|exhibitions&tags=outdoor-events&daygroups=custom:",
   "skillboxes": "https://www.skillboxes.com/events?filter=%7B%22selectedCity%22:9%7D",
   "mello": "https://www.mello.fun/#",
   "adidas": "https://adidasrunners.adidas.com/community/bengaluru?cm_sp=RUNNING_HUB-_-FIND_YOUR_CITY-_-BENGALURU",
