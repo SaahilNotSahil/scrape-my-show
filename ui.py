@@ -16,7 +16,10 @@ def load_data():
     data_files = os.listdir("./data")
     for file in data_files:
         if file.endswith(".csv"):
-            data.append(pd.read_csv(f"./data/{file}"))
+            df = pd.read_csv(f"./data/{file}")
+
+            if not df.empty:
+                data.append(df)
 
     df = pd.concat(data, axis=0)
     df = df.dropna(axis=0)
