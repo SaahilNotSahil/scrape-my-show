@@ -54,7 +54,10 @@ class BaseScraper:
         else:
             os.mkdir("data")
 
-        df.to_csv(f"./data/{name}.csv", index=False)
+        if df.empty:
+            df = generate_blank_df()
+
+        df.to_csv(f"./data/{name}.csv", index=False, header=True)
         print(f"Saved {self.num_events} events to ./data/{name}.csv")
 
     def close_driver(self):
@@ -67,3 +70,8 @@ def exclude(text, exclude_words):
             return True
 
     return False
+
+
+def generate_blank_df():
+    df = pd.DataFrame(columns=["name", "date", "link"])
+    return df
