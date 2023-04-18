@@ -49,9 +49,6 @@ class Mello(BaseScraper):
                 if e not in self.events:
                     self.events.append(e)
 
-                self.driver.execute_script(
-                    f"arguments[0].getElementsByTagName(\"a\")[{num_events+3}].click()", group)
-
         self.num_events = len(self.events)
 
         print(f"Found {self.num_events} offline events in Bengaluru")

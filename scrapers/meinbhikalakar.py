@@ -24,6 +24,9 @@ class MeinBhiKalakar(BaseScraper):
 
             text = div.text.split("|")
 
+            if len(text) != 3:
+                continue
+
             event_date = text[0].strip() + f" {get_current_year()}"
             event_name = text[2].strip()
 
