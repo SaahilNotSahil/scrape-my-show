@@ -32,7 +32,10 @@ class PaintBarBlr(BaseScraper):
                 event_name = text[0].strip()
                 event_date = text[1].split(", ")[1]
 
-            event_date = event_date + f" {get_current_year()}"
+            current_year = get_current_year()
+
+            if str(current_year) not in event_date:
+                event_date = event_date + f" {get_current_year()}"
 
             if not greater_than_today(event_date):
                 continue

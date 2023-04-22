@@ -71,8 +71,12 @@ def greater_than_today(datestr):
     if not is_date(datestr):
         return False
 
+    parsed = dateparser.parse(datestr)
+    if parsed is None:
+        return False
+
     date = datetime.strptime(
-        str(dateparser.parse(datestr)), "%Y-%m-%d %H:%M:%S").date()
+        str(parsed), "%Y-%m-%d %H:%M:%S").date()
     date_today = datetime.now().date()
 
     return date >= date_today
