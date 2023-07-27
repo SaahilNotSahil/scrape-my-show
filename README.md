@@ -1,1 +1,1 @@
-# scrape-my-show
+# ScrapeMyShow
